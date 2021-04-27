@@ -1,0 +1,83 @@
+<div class="container-fluid" role="main">
+    <div class="row" style="margin-top:100px;">
+
+        <form [formGroup]="playerForm" class="col-lg-2 col-md-4 col-sm-12 col-12">
+            <div class="col-12">
+                <img class="col-12" src="https://www.mattel163.com/m/gw/20190903144238/img/phase10-1_36a32b21.png">
+            </div>
+            <div class="card text-center">
+                <h3>Game Statistics</h3>
+                <span class="m-2">Current Round: {{currentRound}}</span>
+            </div>
+            <div class="card-container col-12" formArrayName="playersScore">
+                <span class="text-center">
+                    Enter current rounds score here
+                </span>
+                <p class="player-score-input" *ngFor="let item of playersScore.controls; let playerIndex=index"
+                    [formGroupName]="playerIndex">
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{item.value.name}}'s</mat-label>
+                        <input matInput placeholder="Score" autocomplete="off" formControlName="point">
+                    </mat-form-field>
+                </p>
+                <p class="col-12 text-center">
+                    <mat-error
+                        *ngIf="playerForm.controls['playersScore'].invalid && (playerForm.controls['playersScore'].dirty || playerForm.controls['playersScore'].touched)">
+                        Please enter a <strong>valid</strong> score!
+                    </mat-error>
+                </p>
+                <button type="submit" class="card-button card-small" [disabled]="!playerForm.valid"
+                    (click)="addCurrentRoundPoints()" tabindex="0">
+                    <span>ENTER</span>
+                </button>
+            </div>
+        </form>
+
+        <div class="card col-lg-10 col-md-8 col-sm-12 col-12">
+            <h1 class="text-center" style="color:#333; padding: 20px 0;">PHASE 10 Scoreboard</h1>
+            <hr />
+            <table>
+                <tr>
+                    <td *ngFor="let player of players | keyvalue">
+                        <table style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <td style="font-size: 26px; margin: 10px; color: #333; text-align:center;">
+                                        {{player.key}} [{{player.value.totalPoint}}]
+                                    </td>
+                                </tr>
+                                <hr />
+                                <tr class="text-center">
+                                    <td class="phase-container">
+                                        <table width="100%">
+                                            <tr style="margin: 10px 0;">
+                                                <td style="height: 30px;" *ngFor="let number of [1,2,3,4,5]">
+                                                    <span
+                                                        class="{{player.value.currentPhase > number? 'phase-cleared':'phase-not-cleared'}}">{{number}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="height: 30px;" *ngFor="let number of [6,7,8,9,10]">
+                                                    <span
+                                                        class="{{player.value.currentPhase > number? 'phase-cleared':'phase-not-cleared'}}">{{number}}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <hr />
+                                <tr style="margin-top: 100px"
+                                    *ngFor="let score of player.value.allPoints; let scoreIndex=index">
+                                    <td
+                                        class="text-center {{horizontalLineNeeded(scoreIndex) && scoreIndex != 0? 'line-visible':''}}">
+                                        {{score}}
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

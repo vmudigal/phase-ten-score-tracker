@@ -1,0 +1,55 @@
+<div class="content" role="main">
+    <!-- Phase 10 image -->
+    <div>
+        <img src="https://cdn2.spiele-umsonst.de/flash_thumb/phase10.jpg">
+    </div>
+
+    <!-- Add Players -->
+    <h2>Add Players</h2>
+    <p>Could you please add the players who are part of the game?</p>
+
+    <form [formGroup]="playerForm">
+
+        <div class="card-container" formArrayName="players">
+            <p class="player-name-input" *ngFor="let item of players.controls; let playerIndex=index"
+                [formGroupName]="playerIndex">
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Name" autocomplete="off" formControlName="player">
+                </mat-form-field>
+            </p>
+            <p class="col-12 text-center">
+                <mat-error
+                    *ngIf="playerForm.controls['players'].invalid && (playerForm.controls['players'].dirty || playerForm.controls['players'].touched)">
+                    Please enter a <strong>valid</strong> name!
+                </mat-error>
+                <!-- <mat-error *ngIf="playerForm.controls['players'].hasError('pattern') && !playerForm.controls['players'].hasError('required')">
+                        Please enter a valid name
+                    </mat-error> 
+                    <mat-error *ngIf="playerForm.controls['players'].invalid">
+                        Please enter a <strong>valid</strong> name!
+                    </mat-error> -->
+            </p>
+        </div>
+
+    </form>
+    <div class="card-container">
+        <button *ngIf="playerCount > 2" class="card card-small" (click)="removePlayer()" tabindex="0">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M19 13H5v-2h14v2z" />
+            </svg>
+            <span>PLAYER</span>
+        </button>
+        <button *ngIf="playerCount < 6" class="card card-small" (click)="addPlayer()" tabindex="0">
+            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+            <span>PLAYER</span>
+        </button>
+
+        <button type="submit" [disabled]="!playerForm.valid" (click)="play()" class="card card-small" tabindex="0">
+            <span>PLAY</span>
+        </button>
+    </div>
+</div>
