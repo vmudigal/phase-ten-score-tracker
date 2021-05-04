@@ -1,2 +1,32 @@
-
+<p>
+    <mat-toolbar>
+        <div (click)="drawer.toggle(); onClick()" style="margin-right: 5px;">
+            <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'topX'"></div>
+            <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'hide'"></div>
+            <div class="icon-bar" [@hamburguerX]="isHamburguer ? 'hamburguer' : 'bottomX'"></div>
+          </div>
+        <span style="font-size: medium;">PHASE 10 SCORE TRACKER</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>share</mat-icon></button>
+        <mat-menu #menu="matMenu">
+            <share-buttons theme="modern-light" style="margin: 15px;"></share-buttons>
+        </mat-menu>
+    </mat-toolbar>
+</p>
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+      <mat-nav-list>
+        <a mat-list-item (click)="drawer.toggle();onClick();" routerLink='/'>New Game</a>
+        <a mat-list-item *ngIf="isCurrentlyPlaying == true" (click)="drawer.toggle();onClick();" routerLink='/scoreboard'>Scoreboard</a>
+        <a mat-list-item (click)="drawer.toggle();onClick();" routerLink='/instructions'>Instructions</a>
+      </mat-nav-list> 
+    </mat-drawer>
 <router-outlet></router-outlet>
+</mat-drawer-container>
+<p>
+    <mat-toolbar>
+        <span style="font-size: small;">Powered by <b>Mudigal Technologies</b></span>
+        <span class="example-spacer"></span>
+        <span style="font-size: small;">Copyright © 2021</span>
+    </mat-toolbar>
+</p>

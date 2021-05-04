@@ -1,0 +1,24 @@
+runtime: nodejs14
+env: standard
+env_variables:
+  environment: "--prod"
+manual_scaling:
+  instances: 1
+handlers:
+
+- url: /
+  secure: always
+  static_files: dist/mattel-phase-ten/index.html
+  upload: dist/mattel-phase-ten/index.html
+
+#  Routing rules for resources, css, js, images etc. Any file with format filename.ext
+- url: /(.*\.(.+))$
+  secure: always
+  static_files: dist/mattel-phase-ten/\1
+  upload: dist/mattel-phase-ten/(.*\.(.+))$
+
+#  Routing rule for Angular Routing
+- url: /(.*)
+  secure: always
+  static_files: dist/mattel-phase-ten/index.html
+  upload: dist/mattel-phase-ten/index.html

@@ -1,7 +1,7 @@
 <div class="content" role="main">
     <!-- Phase 10 image -->
     <div>
-        <img src="https://cdn2.spiele-umsonst.de/flash_thumb/phase10.jpg">
+        <img src="../../assets/images/phase10.jpg">
     </div>
 
     <!-- Add Players -->
@@ -10,7 +10,7 @@
 
     <form [formGroup]="playerForm">
 
-        <div class="card-container" formArrayName="players">
+        <div class="card-container text-center" formArrayName="players">
             <p class="player-name-input" *ngFor="let item of players.controls; let playerIndex=index"
                 [formGroupName]="playerIndex">
                 <mat-form-field appearance="fill">

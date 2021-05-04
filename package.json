@@ -1,12 +1,13 @@
 {
   "name": "mattel-phase-ten",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
+    "deploy": "gcloud app deploy --version=v1-0-6",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -22,7 +23,12 @@
     "@angular/platform-browser-dynamic": "~11.2.3",
     "@angular/router": "~11.2.3",
     "@angular/service-worker": "~11.2.3",
+    "@fortawesome/angular-fontawesome": "^0.8.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "bootstrap": "^4.6.0",
+    "ngx-sharebuttons": "^8.0.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"

@@ -1,6 +1,10 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AddPlayerScoreDialog } from '../add-score/add-player-score.dialog';
+import { PlayerStatistics } from '../model/player-statistics';
+import { LocalStorageService } from '../service/local-stroage.service';
 
 @Component({
   selector: 'app-scoreboard',
@@ -9,23 +13,43 @@ import { Router } from '@angular/router';
 })
 export class ScoreboardComponent implements OnInit {
 
-  private playersScoreValidators = [
-    Validators.required,
-    Validators.pattern('^([0-9]?5)|([0-9]?0)$')
-  ];
+  pipe = new DatePipe('en-US');
+  date = new Date();
+  myFormattedDate = this.pipe.transform(this.date, 'dd-MMM-yyyy, hh:mm');
 
   players!: Map<String, PlayerStatistics>;
 
   currentRound = 1;
-  playerForm!: FormGroup;
 
-  constructor(private router: Router, private fb: FormBuilder) { }
+  constructor(private router: Router,
+    private localStorage: LocalStorageService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
-    this.playerForm = this.fb.group({
-      playersScore: this.fb.array([])
+    this.players = new Map<String, PlayerStatistics>();
+    // if(this.localStorage.getItem("players") != null) {
+    //   this.players = new Map(JSON.parse(this.localStorage.getItem("players")!));
+    // }
+
+    // "[[\"P\",{\"currentPhase\":1,\"totalPoint\":0,\"allPoints\":[]}],[\"G\",{\"currentPhase\":1,\"totalPoint\":0,\"allPoints\":[]}]]"
+    this.localStorage.getItem("players").subscribe((datas) => {
+      console.log('datas', datas);
+      if (datas != null) {
+        JSON.parse(datas).forEach((data:any) => {
+          console.log('data',data);
+          this.players.set(data[0], data[1]);
+        });
+      } else if (history.state.data === undefined) {
+        this.router.navigate(['/']);
+      } else {
+        history.state.data.playersList.forEach((player: String) => {
+          this.players.set(player, new PlayerStatistics());
+          console.log('this.players inside successful completion: ', this.players)
+        });
+        this.localStorage.setItem("players", JSON.stringify(Array.from(this.players.entries())));
+      }
     });
+
 
     // For testing
     // this.players.set("Player1", new PlayerStatistics());
@@ -35,56 +59,24 @@ export class ScoreboardComponent implements OnInit {
     // this.players.set("Player5", new PlayerStatistics());
     // this.players.set("Player6", new PlayerStatistics());
 
-    
-    if (history.state.data === undefined) {
-      this.router.navigate(['/']);
-    } else {
-      this.players = new Map<String, PlayerStatistics>();
-      history.state.data.playersList.forEach((player: String) => {
-        this.players.set(player, new PlayerStatistics());
-        console.log(this.playersCount);
-      });
-    }
-
-    this.populatePlayerScoreForm();
   }
 
-  get playersScore() {
-    return this.playerForm.get('playersScore') as FormArray;
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddPlayerScoreDialog, {
+      // width: '250px',
+      disableClose: true,
+      data: { players: this.players }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
   }
 
   get playersCount() { return this.players.size; }
 
   get playerNames() { return Array.from(this.players.keys()); }
-
-  populatePlayerScoreForm() {
-    this.players!.forEach((value: PlayerStatistics, key: String) => {
-      this.playersScore.push(this.fb.group({ point: [, this.playersScoreValidators], name: key }));
-    });
-  }
-
-  addCurrentRoundPoints() {
-
-    this.currentRound = this.currentRound + 1;
-
-    this.playersScore.value.forEach((data: any) => {
-      console.log(JSON.stringify(data));
-      this.players.get(data.name);
-      let playerStatistics: PlayerStatistics =
-        this.players.get(data.name) ?
-          this.players.get(data.name)! : new PlayerStatistics();
-      if (data.point < 50) {
-        playerStatistics.currentPhase = playerStatistics.currentPhase + 1;
-      }
-      playerStatistics.allPoints.push(data.point);
-      playerStatistics.totalPoint = +playerStatistics.totalPoint + +data.point;
-
-      this.players.set(data.name, playerStatistics);
-    });
-
-    this.playersScore.clear();
-    this.populatePlayerScoreForm();
-  }
 
   horizontalLineNeeded(scoreIndex: number): boolean {
     return scoreIndex % this.playersCount == 0 ? true : false;
@@ -98,10 +90,4 @@ export class ScoreboardComponent implements OnInit {
     return totalPoint;
   }
 
-}
-
-export class PlayerStatistics {
-  currentPhase: number = 1;
-  totalPoint: number = 0;
-  allPoints: number[] = [];
 }

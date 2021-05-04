@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../service/local-stroage.service';
 
 @Component({
   selector: 'app-add-player',
@@ -16,9 +17,10 @@ export class AddPlayerComponent implements OnInit {
 
   playerForm!: FormGroup;
 
-  constructor(private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private localStorage: LocalStorageService) { }
 
   ngOnInit(): void {
+    this.localStorage.removeItem("players");
     this.playerForm = this.formBuilder.group({
       players: this.formBuilder.array([
         this.formBuilder.group({ player: ['', this.playerValidators] }),
