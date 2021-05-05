@@ -7,7 +7,7 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "deploy": "gcloud app deploy --version=v1-0-6",
+    "deploy": "gcloud app deploy --version=v1-0-1",
     "e2e": "ng e2e"
   },
   "private": true,

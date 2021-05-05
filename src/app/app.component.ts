@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { LocalStorageService } from './service/local-stroage.service';
 import {
   trigger,
@@ -7,6 +7,8 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app.module';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,7 @@ import {
     trigger('hamburguerX', [
       state('hamburguer', style({})),
       state('topX', style({
-        transform: 'rotate(45deg)', 
+        transform: 'rotate(45deg)',
         transformOrigin: 'left',
         margin: '6px'
       })),
@@ -29,7 +31,7 @@ import {
         margin: '6px'
       })),
       transition('* => *', [
-        animate('0.2s')
+        animate('0.3s')
       ]),
     ]),
   ],
@@ -39,13 +41,15 @@ export class AppComponent {
   title = 'Phase 10';
   isCurrentlyPlaying: boolean = false;
 
-  constructor(private localStorage: LocalStorageService) {
+  constructor(private localStorage: LocalStorageService, private ngZone: NgZone) {
     this.localStorage.getItem("players").subscribe((data) => {
-      if (data != null) {
-        this.isCurrentlyPlaying = true;
-      } else {
-        this.isCurrentlyPlaying = false;
-      }
+      // this.ngZone.run(() => {
+        if (data != null) {
+          this.isCurrentlyPlaying = true;
+        } else {
+          this.isCurrentlyPlaying = false;
+        }
+      // });
     });
   }
 

@@ -15,11 +15,13 @@ export class ScoreboardComponent implements OnInit {
 
   pipe = new DatePipe('en-US');
   date = new Date();
-  myFormattedDate = this.pipe.transform(this.date, 'dd-MMM-yyyy, hh:mm');
+  myFormattedDate = this.pipe.transform(this.date, 'dd-MMM-yyyy, hh:mm a');
 
   players!: Map<String, PlayerStatistics>;
 
   currentRound = 1;
+  breakpoint: number = 1;
+  boardview = "grid";
 
   constructor(private router: Router,
     private localStorage: LocalStorageService, public dialog: MatDialog) { }
@@ -59,6 +61,39 @@ export class ScoreboardComponent implements OnInit {
     // this.players.set("Player5", new PlayerStatistics());
     // this.players.set("Player6", new PlayerStatistics());
 
+    this.onResize(window.innerWidth);
+  }
+  
+  onResize(event:any) {
+    // X-Small
+    if (window.innerWidth <= 576) {
+      this.breakpoint = 1;
+    } 
+    // Small
+    else if(window.innerWidth <= 768) {    
+      this.breakpoint = 2;
+    } 
+    // Medium
+    else if (window.innerWidth <= 992) {   
+      this.breakpoint = 3;
+      if(this.players.size < 3) {
+        this.breakpoint = this.players.size;
+      }
+    } 
+    // Large
+    else if(window.innerWidth <= 1200) {
+      this.breakpoint = 4;
+      if(this.players.size < 4) {
+        this.breakpoint = this.players.size;
+      }
+    } 
+    // Extra large and Extra extra large
+    else if(window.innerWidth > 1200) {
+      this.breakpoint = 6;
+      if(this.players.size < 6) {
+        this.breakpoint = this.players.size;
+      }
+    }
   }
 
   openDialog(): void {

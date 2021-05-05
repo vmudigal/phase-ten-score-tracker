@@ -45,9 +45,19 @@ export class AddPlayerScoreDialog {
     }
 
     addCurrentRoundPoints() {
+        
+        let countZero = 0;
+        this.playersScore.value.forEach((data: any) => {
+            if (data.point == 0) {
+                countZero = countZero + 1;
+            }
+            
+        });
+        if (countZero > 1) {
+            this.playerForm.controls['playersScore'].setErrors({'invalid': true});
+            return;
+        }
 
-        // this.currentRound = this.currentRound + 1;
-    
         this.playersScore.value.forEach((data: any) => {
           console.log(JSON.stringify(data));
           this.data.players.get(data.name);

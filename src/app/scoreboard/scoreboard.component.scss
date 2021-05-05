@@ -14,6 +14,32 @@ hr {
   align-items: center;
 }
 
+md-grid-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.player-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#fff;
+  }
+
+.player-grid-name {
+  background: #dc3545;
+  font-weight: 900;
+  font-size: xx-large;
+  font-family: Arial Rounded MT Bold;
+}
+
+.player-score-and-phase {
+  font-weight: 900;
+  font-size: xx-large;
+  font-family: Arial Rounded MT Bold;
+}
+
 .phase-container > span {
     margin: 5px;
     padding: 5px;
@@ -25,12 +51,13 @@ hr {
 }
 
 .phase-cleared {
-    background: #28a745;
-    border-radius: 5px;
-    color: white;
-    text-align: center;
-    margin:1px;
-    padding: 5px;
+  background: #28a745;
+  border-radius: 2px;
+  color: white;
+  text-align: center;
+  font-weight: 900;
+  margin: 1px;
+  padding: 5px;
 }
 
 .phase-not-cleared {
@@ -78,6 +105,10 @@ hr {
 
   button {
     margin:10px;
+  }
+
+  ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    line-height: 39px!important;
   }
 
   .card-button {

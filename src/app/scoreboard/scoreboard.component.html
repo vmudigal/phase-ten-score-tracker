@@ -1,25 +1,52 @@
-<div class="container-fluid content" role="main">
+<div class="container content" role="main">
     <div class="row" style="margin-top:20px;">
-        <div class="col-lg-4 col-md-3 col-sm-12 col-12 text-center"
+        <div class="col-lg-4 col-md-4 col-sm-12 col-12 text-center"
             style="color:#333; font-size:large; font-weight:600; padding: 20px 0;">
             {{myFormattedDate}}
         </div>
-        <div class="col-lg-4 col-md-3 col-sm-12 col-12 text-center float-right"
+        <div class="col-lg-4 col-md-4 col-sm-12 col-12 text-center float-right"
             style="color:#333; font-size:x-large; font-weight:600; padding: 20px 0;">PHASE 10 Scoreboard</div>
 
-        <div class="col-lg-4 col-md-3 col-sm-12 col-12 float-right">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-12 float-right">
+            <mat-button-toggle-group (click)="boardview=group.value" #group="matButtonToggleGroup">
+                <mat-button-toggle value="grid" aria-label="Grid View">
+                  <mat-icon>grid_view</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="table" aria-label="Table View">
+                  <mat-icon>view_headline</mat-icon>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
             <button mat-raised-button (click)="openDialog()">Add Score</button>
         </div>
     </div>
     <hr />
-    <table class="col-12">
+
+    <!-- GRID VIEW -->
+    <mat-grid-list *ngIf="boardview == 'grid'" class="text-center" [ngStyle]="{'max-width': 'auto'}"  [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)">
+        <mat-grid-tile *ngFor="let player of players | keyvalue"
+            class="player-grid text-center">
+            <div style="height: 100%; width: 100%;">
+            <mat-grid-list [cols]="1" rowHeight="3:1" style="margin: 10px 5px; box-shadow: 2em solid #ffc107">
+                <mat-grid-tile class="player-grid-name col-12"> {{player.key}} </mat-grid-tile>
+                <mat-grid-tile style="background-color: #007bff;font-size:medium" class="col-12">PHASE :  
+                    <span class="player-score-and-phase">  {{player.value.currentPhase}}</span></mat-grid-tile>
+                <mat-grid-tile style="font-size:medium; background-color: #28a745;" class="col-12">POINTS :  
+                    <span class="player-score-and-phase">  {{player.value.totalPoint}}</span></mat-grid-tile>
+            </mat-grid-list>
+        </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <!-- TABLE VIEW -->
+    <table *ngIf="boardview != 'grid'" class="col-12">
         <tr>
             <td *ngFor="let player of players | keyvalue">
                 <table style="width: 100%">
                     <thead>
                         <tr>
                             <td style="font-size: 26px; margin: 10px; color: #333; text-align:center;">
-                                {{player.key}} [{{player.value.totalPoint}}]
+                                {{player.key}} <span *ngIf="player.value.totalPoint != 0">-
+                                    {{player.value.totalPoint}}</span>
                             </td>
                         </tr>
                         <hr />
@@ -54,6 +81,4 @@
             </td>
         </tr>
     </table>
-
-
 </div>

@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AddPlayerComponent } from './add-player/add-player.component';
-import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,15 +18,17 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { InstructionsComponent } from './instructions/instructions.component';
 import { LocalStorageService } from './service/local-stroage.service';
 import { AddPlayerScoreDialog } from './add-score/add-player-score.dialog';
-import { ShareButtonsConfig } from 'ngx-sharebuttons';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { HttpClientModule } from '@angular/common/http';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faFacebook, faFacebookF, faFacebookMessenger, faLine, faLinkedin, faLinkedinIn, faMix, faPinterestP, faRedditAlien, faTelegramPlane, faTumblr, faTwitter, faTwitterSquare, faViber, faVk, faWhatsapp, faXing } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faFacebookMessenger, faLine, faLinkedinIn, faMix, faPinterestP, faRedditAlien, faTelegramPlane, faTumblr, faTwitter, faViber, faVk, faWhatsapp, faXing } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faLink, faPrint, faSms } from '@fortawesome/free-solid-svg-icons';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 
 // const customConfig: ShareButtonsConfig = {
 //   include: ['facebook', 'twitter', 'google'],
@@ -41,9 +42,9 @@ import { faEnvelope, faLink, faPrint, faSms } from '@fortawesome/free-solid-svg-
   declarations: [
     AppComponent,
     AddPlayerComponent,
-    ScoreboardComponent,
     InstructionsComponent,
-    AddPlayerScoreDialog
+    AddPlayerScoreDialog,
+    ScoreboardComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +68,9 @@ import { faEnvelope, faLink, faPrint, faSms } from '@fortawesome/free-solid-svg-
     MatSidenavModule,
     MatListModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule,
+    MatButtonToggleModule
   ],
   entryComponents: [
     AddPlayerScoreDialog

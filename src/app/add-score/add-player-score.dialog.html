@@ -1,34 +1,35 @@
-<h1 mat-dialog-title><div style="width:100%">
-    <img width="100%" src="../../assets/images/phase10.jpg">
-</div>
-<div class="col-12 text-center">
-    <h3>Game Statistics</h3>
-    <!-- <span class="m-2">Current Round: {{currentRound}}</span>  -->
-</div></h1>
+<h1 mat-dialog-title>
+    <!-- <div style="width:100%">
+        <img width="100%" src="../../assets/images/phase10.jpg">
+    </div> -->
+    <!-- <div class="col-12 text-center">
+        <h3>Game Statistics</h3>
+        <span class="m-2">Current Round: {{currentRound}}</span>
+    </div> -->
+</h1>
 <mat-dialog-content>
-  <form [formGroup]="playerForm" class="col-lg-12 col-md-12 col-sm-12 col-12">
-    
-    <div class="card-container col-12" formArrayName="playersScore">
-        <span class="text-center">
-            Enter current rounds score here
-        </span>
-        <p class="player-score-input text-center"
-            *ngFor="let item of playersScore.controls; let playerIndex=index" [formGroupName]="playerIndex">
-            <mat-form-field appearance="fill">
-                <mat-label>{{item.value.name}}'s</mat-label>
-                <input matInput placeholder="Score" autocomplete="off" formControlName="point">
-            </mat-form-field>
-        </p>
-        <p class="col-12 text-center">
-            <mat-error
-                *ngIf="playerForm.controls['playersScore'].invalid && (playerForm.controls['playersScore'].dirty || playerForm.controls['playersScore'].touched)">
-                Please enter a <strong>valid</strong> score!
-            </mat-error>
-        </p> 
-    </div>
-</form>
+    <form [formGroup]="playerForm" class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card-container col-12" formArrayName="playersScore">
+            <span class="text-center">
+                Enter current rounds score here
+            </span>
+            <p class="player-score-input text-center mt-3" *ngFor="let item of playersScore.controls; let playerIndex=index"
+                [formGroupName]="playerIndex">
+                <mat-form-field appearance="fill">
+                    <mat-label>{{item.value.name}}'s</mat-label>
+                    <input matInput placeholder="Score" autocomplete="off" formControlName="point">
+                </mat-form-field>
+            </p>
+            <p class="col-12 text-center">
+                <mat-error
+                    *ngIf="playerForm.controls['playersScore'].invalid && (playerForm.controls['playersScore'].dirty || playerForm.controls['playersScore'].touched)">
+                    Please enter a <strong>valid</strong> score!
+                </mat-error>
+            </p>
+        </div>
+    </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onNoClick()">CANCEL</button>
-  <button mat-button (click)="addCurrentRoundPoints()" [disabled]="!playerForm.valid" cdkFocusInitial>ENTER</button>
+    <button mat-button (click)="onNoClick()">CANCEL</button>
+    <button mat-button (click)="addCurrentRoundPoints()" [disabled]="!playerForm.valid" cdkFocusInitial>ENTER</button>
 </mat-dialog-actions>
